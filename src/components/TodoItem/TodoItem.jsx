@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled, { css } from "styled-components"
 import {TodoItemContainer} from './TodoItemContainer'
 import {TodoItemCheckbox} from './TodoItemCheckbox';
+import {useRemoveById} from "../../data/hooks/useData";
+import {PrioritySelect} from "./Priority";
 
 const checkedCss = css`
   color: #B5B5BA;
@@ -11,6 +13,7 @@ const checkedCss = css`
 const Title = styled.span(props => {
   return `
     font-size: 15px;
+    overflow-wrap: anywhere; 
     ${props.checked ? checkedCss : ''};
   `;
 })
@@ -26,14 +29,30 @@ const Delete = styled.span`
   cursor: pointer;
 `;
 
-export const TodoItem = ({title, checked}) => {
-  return (
-    <TodoItemContainer>
-      <TodoItemCheckbox checked={checked} />
-      <Title checked={checked}>
-        {title}
-      </Title>
-      <Delete />
+
+
+export const TodoItem = ({id, title, checked: isDone, priority}) => {
+    const [highlight, setHighlighting] = useState( priority * 30);
+    const { removeById } = useRemoveById();
+
+    const onDelete = () => {
+        if (window.confirm(`Вы уверены?`)) {
+            removeById({ id });
+        }
+    }
+
+    return (
+      <TodoItemContainer
+      style={{
+          opacity: 1 - (priority / 13),
+          backgroundColor: `rgb(${highlight}, 100, 100)`,
+        }}>
+        <TodoItemCheckbox checked={isDone} id={id} priority={priority} />
+          <PrioritySelect id={id} priority={priority} setColor={setHighlighting} />
+          <Title checked={isDone}>
+              {title}
+          </Title>
+        <Delete onClick={onDelete}/>
     </TodoItemContainer>
   )
 }

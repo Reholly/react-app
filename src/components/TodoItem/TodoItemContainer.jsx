@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import React from "react";
 
 const Root = styled.div `
   display: flex;
@@ -7,6 +8,6 @@ const Root = styled.div `
   padding: 5px 0;
 `
 
-export const TodoItemContainer = ({children}) => {
-  return <Root>{children}</Root>
+export const TodoItemContainer = ({children, style}) => {
+  return <Root style={style}>{children}</Root>
 }

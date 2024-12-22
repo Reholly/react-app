@@ -3,6 +3,7 @@ import {TodoItemContainer} from './TodoItemContainer';
 import {TodoItemCheckbox} from './TodoItemCheckbox';
 import styled from 'styled-components';
 import {useSaveNewTodoItem} from '../../data/hooks/useData';
+import {PrioritySelect} from "./Priority";
 
 
 const Input = styled.input`
@@ -17,6 +18,7 @@ const Input = styled.input`
 export const NewTodoItem = () => {
   const {mutate, isPending, isSuccess} = useSaveNewTodoItem();
   const [value, setValue] = useState('');
+  const [priority, setPriority] = useState(1)
   const inputRef = useRef();
 
   useEffect(() => {
@@ -41,12 +43,16 @@ export const NewTodoItem = () => {
       return;
     }
 
-    mutate({title: value});
+    mutate({title: value, priority: priority});
   }
 
   return (
     <TodoItemContainer>
       <TodoItemCheckbox disabled={true} />
+      <PrioritySelect
+          priority={priority}
+          setPriority={setPriority}>
+      </PrioritySelect>
       <Input 
         ref={inputRef}
         value={value}

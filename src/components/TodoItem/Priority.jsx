@@ -13,7 +13,7 @@ const Input = styled.select`
 export const PrioritySelect = ({ id, priority, setPriority, setColor }) => {
     const { mutate } = useSetPriorityById();
 
-    const onChangeHandler = (e) => {
+    const onChange = (e) => {
         if (setPriority) {
             setPriority(e.target.value);
         }
@@ -30,7 +30,7 @@ export const PrioritySelect = ({ id, priority, setPriority, setColor }) => {
 
     return (
     <Input value={priority}
-           onChange={onChangeHandler} >
+           onChange={onChange} >
         {[1, 2, 3, 4, 5,
           6, 7, 8, 9, 10, 11].
         map(num =>
